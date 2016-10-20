@@ -55,7 +55,6 @@ function loop() {
 
 	game.loop();
 	let state = game.state();
-	console.log(state);
 	io.emit('beat', state);
 }
 
