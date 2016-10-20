@@ -2,10 +2,15 @@
 
 class Game {
 	constructor(options) {
+		this.setupPlayers();
+	}
+
+	setupPlayers() {
+
 	}
 
 	loop() {
-		
+
 	}
 }
 
