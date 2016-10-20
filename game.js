@@ -16,19 +16,33 @@ class Ship {
 
 class ComboGame extends engine.Game {
 	setupPlayers() {
-		this.beta = new Ship();
+		this.ships = [];
 	}
 
-	loop() {
-		this.beta.x ++;
-		if (this.beta.x > 50) {
-			this.beta.x = 0;
+	createShip() {
+		var s = new Ship();
+		this.ships.push(s);
+	}
+
+	loop() { //TODO, obviously
+		for (var i = 0; i < this.ships.length; i++) {
+			var s = this.ships[i];
+			s.x++;
+			if (s.x > 300) {
+				s.x = 0;
+			}
+		}
+	}
+
+	shipPositions() {
+		var d = [];
+		for (var s of this.ships) {
+  		d.push(s.position());
 		}
 	}
 
 	state() {
-		console.log("beta.x" + this.beta.x);
-		return {'beta' : this.beta.position()};
+		return {'ships' : this.shipPositions()};
 	}
 }
 

@@ -1,8 +1,8 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-// var serveStatic = require('serve-static');
-// app.use(serveStatic('public', {'index': ['game.html']}));
+var serveStatic = require('serve-static');
+app.use(serveStatic('public', {'index': ['game.html']}));
 
 var g = require("./game.js");
 
@@ -19,8 +19,7 @@ function updateShipInput(input, socket) {
 }
 
 function createShip(socket) {
-	var ship = new combo.Ship();
-	ships.push(ship);
+	game.createShip();
 }
 
 io.on('connection', function(socket){
