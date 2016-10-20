@@ -39,6 +39,7 @@ class ComboGame extends engine.Game {
 		for (var s of this.ships) {
   		d.push(s.position());
 		}
+		return d;
 	}
 
 	state() {

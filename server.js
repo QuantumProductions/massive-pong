@@ -54,7 +54,9 @@ function loop() {
 	}
 
 	game.loop();
-	io.emit('beat', {"state" : game.state()});
+	let state = game.state();
+	console.log(state);
+	io.emit('beat', state);
 }
 
 setInterval(loop, 10);
