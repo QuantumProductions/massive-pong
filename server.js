@@ -4,7 +4,9 @@ var io = require('socket.io')(http);
 // var serveStatic = require('serve-static');
 // app.use(serveStatic('public', {'index': ['game.html']}));
 
-var combo = require("./combo.js");
+var g = require("./game.js");
+
+var game = new g.Game();
 
 var ships = [];
 
@@ -35,3 +37,24 @@ io.on('connection', function(socket){
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
+
+var now = 0;
+var dt = 0;
+var last = now;
+var rate = 10;
+
+function loop() {
+	now = Date.now();
+	var delta  = now - last;
+	last = now;
+
+	dt = dt + delta;
+
+	if (dt < rate) {
+		return;
+	}
+
+	game.loop();
+}
+
+setInterval(loop, 10);
