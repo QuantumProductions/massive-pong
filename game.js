@@ -9,7 +9,7 @@ class Ship {
 	}
 
 	position() {
-		return {'x' : this.x, 'y' : this.y};
+		return {'x' : this.x, 'y' : this.y, 'id' : this.id};
 	}
 }
 
@@ -21,6 +21,7 @@ class ComboGame extends engine.Game {
 
 	createShip() {
 		var s = new Ship();
+		s.id = new Date().valueOf();
 		this.ships.push(s);
 	}
 

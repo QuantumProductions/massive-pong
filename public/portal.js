@@ -32,7 +32,30 @@ class Portal {
 	}
 
 	handleServerUpdate(d) {
-		this.ships = d["ships"];
+		var sships = d["ships"];
+			for (var i = 0; i < sships.length; i++) {
+				var ss = sships[i];
+				var found = false;
+				for (var j = 0; j < this.ships.length; j++) {
+					var ls = this.ships[j];
+					if (ls.id == ss.id) {
+						found = true;
+						let xDifference = ss.x - ls.x;
+						if (Math.abs(xDifference) > 2) {
+							ls.x += 0.1 * xDifference;	
+						}
+						
+						let yDifference = ss.y - ls.y;
+						if (Math.abs(yDifference) > 2) {
+							ls.y += 0.1 * yDifference;	
+						}
+					}
+				}
+
+				if (!found) {
+					this.ships.push(ss);
+				}
+			}
 		
 		this.setBackground();
 		for (var i = 0; i < this.ships.length; i++) {
@@ -60,6 +83,9 @@ class Portal {
 	}
 
 	loop() {
-		//render
+		for (var i = 0; i < this.ships.length; i++) {
+			var s = this.ships[i];
+			s.x++;;
+		}
 	}
 }
