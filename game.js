@@ -52,7 +52,7 @@ class ComboGame extends engine.Game {
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
 			if (s.id == shipId) {
-				s.y = Math.floor(Math.random() * 80);
+				s.y = Math.floor(Math.random() * 180);
 			}
 		}
 	}
