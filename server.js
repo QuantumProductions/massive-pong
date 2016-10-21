@@ -13,24 +13,35 @@ var game = new g.Game();
 var ships = [];
 
 function emitBeat(socket) {
-	socket.emit('beat', {"ships" : ships});
+	let state = game.state();
+	socket.emit('beat', state);
 }
 
 function updateShipInput(input, socket) {
 
 }
 
+var socketShips = {};
+
 function createShip(socket) {
-	game.createShip();
+	var s = game.createShip();
+	console.log(s.id);
+	socketShips[socket.id] = s.id;
 }
 
 io.on('connection', function(socket){
 	createShip(socket);
   emitBeat(socket);
 
-
   socket.on('input', function(msg){
   	updateShipInput(msg, socket);
+  });
+
+  socket.on('warp', function(msg) {
+  	var socketShipId = socketShips[socket.id];
+  	if (socketShipId) {
+  		game.warpShip(socketShipId);
+  	}
   });
 
 });

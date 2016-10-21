@@ -1,38 +1,13 @@
 "use strict";
 
-class Portal {
-	constructor() {
-		this.installCanvas();
-		this.setup();
-		this.connectToServer();
-	}
-
-	generateCanvas() {
-		var canvas = document.getElementById('canvas');
-		canvas.width = 500;
-		canvas.height = 500;
-		return canvas;
-	}
-
-	installCanvas() {
-		this.canvas = this.generateCanvas();
-		document.getElementById("game_container").appendChild(this.canvas); 
-	}
-
+class LocalPortal extends Portal {
 	setup() {
 		this.ships = [];
-	}
-
-	connectToServer() {
-		this.io = io();
-		this.io.portal = this;
-		this.io.on('beat', function(d) {
-			this.portal.handleServerUpdate(d);
-		});
+		this.myint = 0;
 	}
 
 	handleServerUpdate(d) {
-		var sships = d["ships"];
+		var sships = d["ships"]; //TODO: extract
 			for (var i = 0; i < sships.length; i++) {
 				var ss = sships[i];
 				var found = false;
@@ -85,7 +60,11 @@ class Portal {
 	loop() {
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
-			s.x++;;
+			s.x++;
 		}
+	}
+
+	processMouseDown(x, y) {
+		this.io.emit('warp', {});
 	}
 }

@@ -23,6 +23,7 @@ class ComboGame extends engine.Game {
 		var s = new Ship();
 		s.id = new Date().valueOf();
 		this.ships.push(s);
+		return s;
 	}
 
 	loop() { //TODO, obviously
@@ -45,6 +46,15 @@ class ComboGame extends engine.Game {
 
 	state() {
 		return {'ships' : this.shipPositions()};
+	}
+
+	warpShip(shipId) {
+		for (var i = 0; i < this.ships.length; i++) {
+			var s = this.ships[i];
+			if (s.id == shipId) {
+				s.y = Math.floor(Math.random() * 80);
+			}
+		}
 	}
 }
 

@@ -1,1 +1,1 @@
-window.portal = new Portal();
+window.portal = new LocalPortal();
