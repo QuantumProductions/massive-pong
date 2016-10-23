@@ -58,13 +58,23 @@ class LocalPortal extends Portal {
 	}
 
 	loop() {
+		super.loop();
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
 			s.x++;
 		}
 	}
 
+	parseInput(key_pressed_map, key_up_map, key_pressing_map, key_depressing_map) {
+		if (key_pressed_map['U1'] == true) {
+			this.io.emit('input', 'up');
+		} else if (key_pressed_map['D1'] == true) {
+			this.io.emit('input', 'down');
+		}
+	}
+
 	processMouseDown(x, y) {
+		console.log("warping");
 		this.io.emit('warp', {});
 	}
 }

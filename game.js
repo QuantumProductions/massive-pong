@@ -48,13 +48,43 @@ class ComboGame extends engine.Game {
 		return {'ships' : this.shipPositions()};
 	}
 
-	warpShip(shipId) {
+	doShip(shipId, fn) {
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
 			if (s.id == shipId) {
-				s.y = Math.floor(Math.random() * 180);
+				fn(s);
+				return;
 			}
 		}
+	}
+
+	moveShipUp(ship) {
+		ship.y--;
+		if (ship.y < 0) {
+			ship.y = 180;
+		}
+	}
+
+	moveShipDown(ship) {
+		ship.y++;
+		if (ship.y > 180) {
+			ship.y = 0;
+		}	
+	}
+
+	input(shipId, command) {
+		if (command == 'up') {
+			this.doShip(shipId, this.moveShipUp);
+		} else if (command == 'down') {
+			this.doShip(shipId, this.moveShipDown);
+		}
+		
+	}
+
+	warpShip(shipId) {
+		this.doShip(shipId, function(s) {
+			s.y = Math.floor(Math.random() * 180);
+		});
 	}
 }
 

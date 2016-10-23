@@ -37,6 +37,13 @@ io.on('connection', function(socket){
   	updateShipInput(msg, socket);
   });
 
+  socket.on('input', function(msg) {
+  	var socketShipId = socketShips[socket.id];
+  	if (socketShipId) {
+  		game.input(socketShipId, msg);
+  	}
+  });
+
   socket.on('warp', function(msg) {
   	var socketShipId = socketShips[socket.id];
   	if (socketShipId) {
