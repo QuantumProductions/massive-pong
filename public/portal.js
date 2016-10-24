@@ -61,7 +61,7 @@ class LocalPortal extends Portal {
 		super.loop();
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
-			s.x++;
+			// s.x++;
 		}
 	}
 
@@ -71,6 +71,14 @@ class LocalPortal extends Portal {
 		} else if (key_pressed_map['D1'] == true) {
 			this.io.emit('input', 'down');
 		}
+	}
+
+	swipeUp() {
+		this.io.emit('input', 'up');
+	}
+
+	swipeDown() {
+		this.io.emit('input', 'down');
 	}
 
 	processMouseDown(x, y) {

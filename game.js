@@ -29,10 +29,6 @@ class ComboGame extends engine.Game {
 	loop() { //TODO, obviously
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
-			s.x++;
-			if (s.x > 300) {
-				s.x = 0;
-			}
 		}
 	}
 
@@ -59,16 +55,16 @@ class ComboGame extends engine.Game {
 	}
 
 	moveShipUp(ship) {
-		ship.y--;
+		ship.y-= 5 ;
 		if (ship.y < 0) {
-			ship.y = 180;
+			ship.y += 180;
 		}
 	}
 
 	moveShipDown(ship) {
-		ship.y++;
+		ship.y+= 5;
 		if (ship.y > 180) {
-			ship.y = 0;
+			ship.y -= 180;
 		}	
 	}
 

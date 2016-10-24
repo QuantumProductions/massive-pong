@@ -123,6 +123,4 @@ class Portal {
 	loopInput() {
 		this.loopKeyboardInput(this.key_down_map, this.key_up_map, this.key_pressing_map, this.key_depressing_map);
 	}
-}
-
-
+};

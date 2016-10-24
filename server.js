@@ -30,8 +30,12 @@ function createShip(socket) {
 }
 
 io.on('connection', function(socket){
-	createShip(socket);
   emitBeat(socket);
+
+  socket.on('join', function(msg) {
+  	console.log("joined");
+  	createShip(socket);
+  });
 
   socket.on('input', function(msg){
   	updateShipInput(msg, socket);
@@ -41,6 +45,8 @@ io.on('connection', function(socket){
   	var socketShipId = socketShips[socket.id];
   	if (socketShipId) {
   		game.input(socketShipId, msg);
+  	} else {
+  		console.log("invalid id");
   	}
   });
 
