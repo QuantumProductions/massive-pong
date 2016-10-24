@@ -19,10 +19,14 @@ class Controller extends Portal {
 		var b1 = document.getElementById('button1');
 		b1.addEventListener("mousedown", this.b1down);
 		b1.addEventListener("mouseup", this.b1up);
+		b1.addEventListener("touchstart", this.b1down);
+		b1.addEventListener("touchend", this.b1up);
 		b1.controller = this;
 		var b2 = document.getElementById('button2');
 		b2.addEventListener("mousedown", this.b2down);
 		b2.addEventListener("mouseup", this.b2up);
+		b2.addEventListener("touchstart", this.b2down);
+		b2.addEventListener("touchend", this.b2up);
 		b2.controller = this;
 	}
 

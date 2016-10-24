@@ -61,7 +61,7 @@ class LocalPortal extends Portal {
 		super.loop();
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
-			// s.x++;
+			this.drawShip(s);
 		}
 	}
 
