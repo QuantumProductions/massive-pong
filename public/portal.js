@@ -49,12 +49,15 @@ class LocalPortal extends Portal {
 		this.context().fillRect(0,0, this.canvas.width, this.canvas.height);
 	}
 
+	drawRect(x,y,w,h, colour) {
+		this.context().fillStyle = colour;
+		this.context().fillRect(x,y,w,h);
+	}
+
 	drawShip(s) {
-		var c = this.context();
-		c.beginPath();
-		c.fillStyle = "red";
-		c.arc(s.x, s.y, 15, 0, 2 * Math.PI, false);
-		c.fill();
+		this.context().beginPath();
+		this.drawRect(s.x - 5, s.y - 10, 10, 30, s.teamColor);
+		this.drawRect(s.x - 5, s.y - 10, 10, 30, s.teamColor);
 	}
 
 	loop() {

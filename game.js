@@ -6,10 +6,13 @@ class Ship {
 	constructor(o) {
 		this.x = 50;
 		this.y = 50;
+		let colors = ['red', 'purple', 'yellow', 'orange', 'brown', 'green', 'blue'];
+		let index = Math.floor(Math.random() * colors.length - 1);
+		this.teamColor = colors[index];
 	}
 
 	position() {
-		return {'x' : this.x, 'y' : this.y, 'id' : this.id};
+		return {'x' : this.x, 'y' : this.y, 'id' : this.id, 'teamColor' : this.teamColor};
 	}
 }
 
@@ -17,10 +20,12 @@ class Ship {
 class ComboGame extends engine.Game {
 	setupPlayers() {
 		this.ships = [];
+		this.fh = 500;
 	}
 
 	createShip() {
 		var s = new Ship();
+		s.x = Math.floor(Math.random() * 500);
 		s.id = new Date().valueOf();
 		this.ships.push(s);
 		return s;
@@ -48,23 +53,23 @@ class ComboGame extends engine.Game {
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
 			if (s.id == shipId) {
-				fn(s);
+				fn(s, this);
 				return;
 			}
 		}
 	}
 
-	moveShipUp(ship) {
+	moveShipUp(ship, game) {
 		ship.y-= 5 ;
 		if (ship.y < 0) {
-			ship.y += 180;
+			ship.y += game.fh;
 		}
 	}
 
-	moveShipDown(ship) {
+	moveShipDown(ship, game) {
 		ship.y+= 5;
-		if (ship.y > 180) {
-			ship.y -= 180;
+		if (ship.y > game.fh) {
+			ship.y -= game.fh;
 		}	
 	}
 
