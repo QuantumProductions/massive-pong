@@ -22,6 +22,7 @@ function updateShipInput(input, socket) {
 }
 
 var socketShips = {};
+var socketQueue = [];
 
 function createShip(socket) {
 	var s = game.createShip();
@@ -29,13 +30,40 @@ function createShip(socket) {
 	socketShips[socket.id] = s.id;
 }
 
+function queue(socket) {
+  socketQueue.push(socket);
+}
+
+function removeFromQueue(socket) {
+  let index = -1;
+  for (var i = 0; i < socketQueue.length; i++) {
+    var sq = socketQueue[i];
+    if (sq.id == socket.id) {
+      index = i;
+      break;
+    }
+  }
+  if (index > -1) {
+    socketQueue.splice(index, 1);
+  }
+}
+
 io.on('connection', function(socket){
   emitBeat(socket);
 
   socket.on('join', function(msg) {
   	console.log("joined");
-  	createShip(socket);
+    if (game.openSeat()) {
+      createShip(socket);
+    } else {
+      queue(socket);
+    }
   });
+
+  socket.on('disconnect', function () {
+    removeFromQueue(socket);
+    removeFromGame(socket);
+  }
 
   socket.on('input', function(msg){
   	updateShipInput(msg, socket);

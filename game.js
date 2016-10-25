@@ -62,14 +62,14 @@ class ComboGame extends engine.Game {
 	moveShipUp(ship, game) {
 		ship.y-= 5 ;
 		if (ship.y < 0) {
-			ship.y += game.fh;
+			ship.y = 0;
 		}
 	}
 
 	moveShipDown(ship, game) {
 		ship.y+= 5;
 		if (ship.y > game.fh) {
-			ship.y -= game.fh;
+			ship.y = game.fh;
 		}	
 	}
 
