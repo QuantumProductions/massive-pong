@@ -23,6 +23,25 @@ class ComboGame extends engine.Game {
 		this.fh = 500;
 	}
 
+	disconnect(shipId) {
+		var index = -1;
+		for (var i = 0; i < this.ships.length; i++) {
+			var s = this.ships[i];
+			if (s.id == shipId) {
+				index = i;
+				break;
+			}
+		}
+
+		if (index > -1) {
+			this.ships.splice(index, 1); //post goodbye message
+		}
+	}
+
+	openSeat() {
+		return this.ships.length < 6;
+	}
+
 	createShip() {
 		var s = new Ship();
 		s.x = Math.floor(Math.random() * 500);

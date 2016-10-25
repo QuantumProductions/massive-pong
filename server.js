@@ -48,6 +48,12 @@ function removeFromQueue(socket) {
   }
 }
 
+function removeFromGame(socket) {
+  var shipId = socketShips[socket.id];
+  game.disconnect(shipId);
+  delete socketShips[socket.id];
+}
+
 io.on('connection', function(socket){
   emitBeat(socket);
 
