@@ -63,6 +63,10 @@ io.on('connection', function(socket){
   socket.on('disconnect', function () {
     removeFromQueue(socket);
     removeFromGame(socket);
+    if (game.openSeat() && socketQueue.length > 0) {
+      createShip(socketQueue[0]);
+      removeFromQueue(socketQueue[0]);
+    }
   }
 
   socket.on('input', function(msg){
