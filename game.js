@@ -39,7 +39,7 @@ class ComboGame extends engine.Game {
 	}
 
 	openSeat() {
-		return this.ships.length < 6;
+		return this.ships.length < 2;
 	}
 
 	createShip() {

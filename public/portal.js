@@ -43,7 +43,6 @@ class LocalPortal extends Portal {
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
 			if (s.serverRecognized == false) {
-				console.log("removing");
 				removals.push(s);
 			} else {
 				this.drawShip(s);	
