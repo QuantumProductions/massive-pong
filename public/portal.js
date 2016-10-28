@@ -7,6 +7,11 @@ class LocalPortal extends Portal {
 	}
 
 	handleServerUpdate(d) {
+		for (var j = 0; j < this.ships.length; j++) {
+			var ls = this.ships[j];
+			ls.serverRecognized = false;
+		}
+
 		var sships = d["ships"]; //TODO: extract
 			for (var i = 0; i < sships.length; i++) {
 				var ss = sships[i];
@@ -15,6 +20,7 @@ class LocalPortal extends Portal {
 					var ls = this.ships[j];
 					if (ls.id == ss.id) {
 						found = true;
+						ls.serverRecognized = true;
 						let xDifference = ss.x - ls.x;
 						if (Math.abs(xDifference) > 2) {
 							ls.x += 0.1 * xDifference;	
@@ -33,9 +39,20 @@ class LocalPortal extends Portal {
 			}
 		
 		this.setBackground();
+		var removals = [];
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
-			this.drawShip(s);
+			if (s.serverRecognized == false) {
+				console.log("removing");
+				removals.push(s);
+			} else {
+				this.drawShip(s);	
+			}
+		}
+
+		for (var i = 0; i < removals.length; i++) {
+			var index = this.ships.indexOf(removals[i]);
+			this.ships.splice(index, 1);
 		}
 	}
 
