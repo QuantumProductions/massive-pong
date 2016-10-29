@@ -34,11 +34,9 @@ class Ball {
 		for (var i = 0; i < game.ships.length; i++) {
 			var s = game.ships[i];
 
-				console.log(this.bottom());
-				console.log(s.top());
+				// console.log(this.bottom());
+				// console.log(s.top());
 				if (this.y <= s.bottom() && this.y >= s.top()) {
-
-
 				
 				if ((this.oldX > s.x && this.x <= s.x) || (this.oldX < s.x && this.x >= s.x)) {
 					this.mx = -this.mx;
@@ -96,6 +94,7 @@ class ComboGame extends engine.Game {
 		this.balls = [];
 		this.fh = 500;
 		this.fw = 500;
+		this.spawnBall();
 		this.spawnBall();
 		this.c = Constants.constants();
 	}
@@ -175,7 +174,7 @@ class ComboGame extends engine.Game {
 
 
 	state() {
-		return {'ships' : this.shipPositions(), 'balls' : this.ballPositions()};
+		return {'objects' : {'ships' : this.shipPositions(), 'balls' : this.ballPositions()}};
 	}
 
 	doShip(shipId, fn, arg) {

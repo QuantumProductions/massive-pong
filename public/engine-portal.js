@@ -9,6 +9,10 @@ class Portal {
 		this.installLoops();
 	}
 
+	setup() {
+		this.things = {};
+	}
+
 	generateCanvas() {
 		var canvas = document.getElementById('canvas');
 		canvas.width = 500;
@@ -74,8 +78,6 @@ class Portal {
 		this.key_up_map[this.key_map[event.keyCode]] = false;
 	}
 
-
-
 	installMouseInput() {
 		this.canvas.addEventListener("click", this.onMouseDown.bind(this), false);
 	}
@@ -123,4 +125,88 @@ class Portal {
 	loopInput() {
 		this.loopKeyboardInput(this.key_down_map, this.key_up_map, this.key_pressing_map, this.key_depressing_map);
 	}
+
+	processObjects(d) {
+		console.log("processing" + d);
+		this.setBackground();
+		let objectKeys = Object.keys(d);
+		for (var key of objectKeys) {
+			if (!this.things[key]) {
+				this.things[key] = [];
+			}
+			var localObjects = this.things[key];
+			var sObjects = d[key];
+
+			for (var i = 0; i < sObjects.length; i++) {
+				var ss = sObjects[i];
+				var found = false;
+				for (var j = 0; j < localObjects.length; j++) {
+					var ls = localObjects[j];
+					if (ls.id == ss.id) {
+						found = true;
+						ls.serverRecognized = true;
+						this.smooth(ls, ss);
+					}
+				}
+
+				if (!found) {
+					this.things[key].push(ss);
+					console.log("pushed local object");
+				}
+
+				var removals = [];
+				for (var k = 0; k < this.things[key].length; k++) {
+					let ls = this.things[key][k]
+					if (ls.serverRecognized == false) {
+						removals.push(ls);
+					} else {
+						this.render(key, ls);
+					}
+				}
+
+				for (var i = 0; i < removals.length; i++) {
+					console.log("remove");
+					// var index = localObjects.indexOf(removals[i]);
+					// localObjects.splice(index, 1);
+				}
+			}
+		}
+	}
+
+	smooth(ls,ss) { 
+		let xDifference = ss.x - ls.x;
+		if (Math.abs(xDifference) > 2) {
+			ls.x += 0.1 * xDifference;	
+		}
+			
+		let yDifference = ss.y - ls.y;
+		if (Math.abs(yDifference) > 2) {
+			ls.y += 0.1 * yDifference;	
+		}
+	}
+
+	setBackground() {
+		this.context().clearRect(0, 0, this.canvas.width, this.canvas.height); //500
+		this.context().fillStyle = "#000000";
+		this.context().fillRect(0,0, this.canvas.width, this.canvas.height);
+	}
+
+	render(key, t) {
+		if (key == 'balls') {
+			let ctx = this.context();
+			ctx.beginPath();
+			ctx.arc(t.x, t.y, 7, 0, 2 * Math.PI, false);
+			ctx.fillStyle = t.teamColor;
+			ctx.fill();
+		} else if (key == 'ships') {
+		}
+		
+	}
+
+	handleServerUpdate(d) {
+		this.processObjects(d["objects"]);
+		//events
+	}
+
+	
 };
