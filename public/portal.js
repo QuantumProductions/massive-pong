@@ -3,16 +3,53 @@
 class LocalPortal extends Portal {
 	setup() {
 		this.ships = [];
+		this.balls = [];
 		this.myint = 0;
 	}
 
-	handleServerUpdate(d) {
-		for (var j = 0; j < this.ships.length; j++) {
-			var ls = this.ships[j];
-			ls.serverRecognized = false;
+	handleBalls(sships) {
+		for (var i = 0; i < sships.length; i++) {
+				var ss = sships[i];
+				var found = false;
+				for (var j = 0; j < this.balls.length; j++) {
+					var ls = this.balls[j];
+					if (ls.id == ss.id) {
+						found = true;
+						ls.serverRecognized = true;
+						let xDifference = ss.x - ls.x;
+						if (Math.abs(xDifference) > 2) {
+							ls.x += 0.1 * xDifference;	
+						}
+						
+						let yDifference = ss.y - ls.y;
+						if (Math.abs(yDifference) > 2) {
+							ls.y += 0.1 * yDifference;	
+						}
+					}
+				}
+
+				if (!found) {
+					this.balls.push(ss);
+				}
+			}
+		
+		var removals = [];
+		for (var i = 0; i < this.balls.length; i++) {
+			var s = this.balls[i];
+			if (s.serverRecognized == false) {
+				removals.push(s);
+			} else {
+				this.drawBall(s);	
+			}
 		}
 
-		var sships = d["ships"]; //TODO: extract
+		for (var i = 0; i < removals.length; i++) {
+			var index = this.balls.indexOf(removals[i]);
+			this.balls.splice(index, 1);
+		}
+	}
+
+	handleShips(sships) {
 			for (var i = 0; i < sships.length; i++) {
 				var ss = sships[i];
 				var found = false;
@@ -38,7 +75,6 @@ class LocalPortal extends Portal {
 				}
 			}
 		
-		this.setBackground();
 		var removals = [];
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
@@ -53,6 +89,18 @@ class LocalPortal extends Portal {
 			var index = this.ships.indexOf(removals[i]);
 			this.ships.splice(index, 1);
 		}
+	}
+
+	handleServerUpdate(d) {
+		for (var j = 0; j < this.ships.length; j++) {
+			var ls = this.ships[j];
+			ls.serverRecognized = false;
+		}
+
+		this.setBackground();
+		this.handleShips(d["ships"]);
+		this.handleBalls(d["balls"]);
+		
 	}
 
 	context() {
@@ -72,8 +120,15 @@ class LocalPortal extends Portal {
 
 	drawShip(s) {
 		this.context().beginPath();
-		this.drawRect(s.x - 5, s.y - 10, 10, 30, s.teamColor);
-		this.drawRect(s.x - 5, s.y - 10, 10, 30, s.teamColor);
+		this.drawRect(s.x - 5, s.y - 100, 10, 100, s.teamColor);
+		// this.drawRect(s.x - 5, s.y - 10, 10, 30, s.teamColor);
+	}
+
+	drawBall(b) {
+		this.context().beginPath();
+		this.context().arc(b.x, b.y, 7, 0, 2 * Math.PI, false);
+		this.context().fillStyle = b.teamColor;
+		this.context().fill()
 	}
 
 	loop() {
