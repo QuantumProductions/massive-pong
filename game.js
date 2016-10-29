@@ -95,14 +95,15 @@ class ComboGame extends engine.Game {
 		this.fh = 500;
 		this.fw = 500;
 		this.spawnBall();
+		this.spawnBall();
 		this.c = Constants.constants();
 	}
 
 	spawnBall() {
 		var b = new Ball();
 		b.id = "Ball" + this.balls.length;
-		b.x = 100;
-		b.y = 150;
+		b.x = Math.floor(Math.random() * 150);
+		b.y = Math.floor(Math.random() * 150);
 		b.mx = -1;
 		b.my = -1;
 		this.balls.push(b);

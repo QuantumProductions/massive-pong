@@ -130,57 +130,85 @@ class Portal {
 		this.loopKeyboardInput(this.key_down_map, this.key_up_map, this.key_pressing_map, this.key_depressing_map);
 	}
 
+	ensurePresence(key) {
+		if (!this.things[key]) {
+			this.things[key] = [];
+		}
+	}
+
+	removeUnmatching(key, serverObjects) {
+		var localObjects = this.things[key];
+		var removals = [];
+		for (var i = 0; i < localObjects.length; i++) {
+			let lo = localObjects[i];
+			var matched = false;
+			for (var j = 0; j < serverObjects.length; j++) {
+				let so = serverObjects[j];
+				if (so.id == lo.id) {
+					matched = true;
+					this.smooth(lo, so);
+				}
+			}
+			if (matched == false) {
+				removals.push(lo);
+			}
+		}
+
+		for (var r = 0; r < removals.length; r++) {
+			let removal = removals[r];
+			let index = localObjects.indexOf(removal);
+			this.things[key].splice(index, 1);
+		}
+	}
+
+	addUnexisting(key, serverObjects) {
+		var localObjects = this.things[key];
+		var unexisting = [];
+		for (var i = 0; i < serverObjects.length; i++) {
+			var so = serverObjects[i];
+			var matched = false;
+			for (var j = 0; j < localObjects.length; j++) {
+				var lo = localObjects[j];
+				if (lo.id == so.id) {
+					matched = true;
+				}
+			}
+		
+			if (matched == false) {
+				unexisting.push(so);
+			}
+		}
+
+		for (var u = 0; u < unexisting.length; u++) {
+			this.things[key].push(unexisting[u]);
+		}
+	}
+
+	loopObjects(key) {
+		var os = this.things[key];
+		for (var i = 0; i < os.length; i++) {
+			var t = os[i];
+			this.render(key, t);
+		}
+	}
+
+	smoothObjects(key, serverObjects) {
+
+	}
+
 	processObjects(d) {
-		console.log("processing" + d);
 		this.setBackground();
-		let objectKeys = Object.keys(d);
-		for (var key of objectKeys) {
-			if (!this.things[key]) {
-				this.things[key] = [];
-			}
-			var localObjects = this.things[key];
-			var sObjects = d[key];
-
-			for (var i = 0; i < sObjects.length; i++) {
-				var ss = sObjects[i];
-				var found = false;
-				for (var j = 0; j < localObjects.length; j++) {
-					var ls = localObjects[j];
-					if (ls.id == ss.id) {
-						found = true;
-						ls.serverRecognized = true;
-						this.smooth(ls, ss);
-					}
-				}
-
-				if (!found) {
-					this.things[key].push(ss);
-					console.log("pushed local object");
-					console.log(this.things[key]);
-				}
-
-				console.log("after the not found loop");
-				var removals = [];
-				for (var k = 0; k < this.things[key].length; k++) {
-					console.log("inside k loop");
-					let ls = this.things[key][k];
-					console.log("ls" + ls);
-					if (ls.serverRecognized == false) {
-						console.log("Remove this item");
-						removals.push(ls);
-					} else {
-						console.log("Render this item");
-						this.render(key, ls);
-					}
-				}
-
-				for (var i = 0; i < removals.length; i++) {
-					console.log("remove");
-					// var index = localObjects.indexOf(removals[i]);
-					// localObjects.splice(index, 1);
-				}
-				console.log("After the whole thing");
-			}
+		let keys = Object.keys(d);
+		// console.log(d);
+		// console.log(keys);
+		for (var key of keys) {
+			let serverObjects = d[key];
+			// console.log(serverObjects);
+			this.ensurePresence(key);
+			this.removeUnmatching(key, serverObjects);
+			this.addUnexisting(key, serverObjects);
+			// this.smoothObjects(key, serverObjects);
+			this.loopObjects(key);
 		}
 	}
 
@@ -202,22 +230,10 @@ class Portal {
 		this.context().fillRect(0,0, this.canvas.width, this.canvas.height);
 	}
 
-	render(key, t) {
-		if (key == 'balls') {
-			let ctx = this.context();
-			ctx.beginPath();
-			ctx.arc(t.x, t.y, 7, 0, 2 * Math.PI, false);
-			ctx.fillStyle = t.teamColor;
-			ctx.fill();
-		} else if (key == 'ships') {
-		}
-		
-	}
-
 	handleServerUpdate(d) {
 		this.processObjects(d["objects"]);
 		//events
-		console.log("finishing handle server update");
+		// console.log("finishing handle server update");
 	}
 
 	
