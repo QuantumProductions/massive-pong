@@ -95,7 +95,6 @@ class ComboGame extends engine.Game {
 		this.fh = 500;
 		this.fw = 500;
 		this.spawnBall();
-		this.spawnBall();
 		this.c = Constants.constants();
 	}
 

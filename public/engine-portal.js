@@ -109,13 +109,17 @@ class Portal {
 		}
 
 		while (this.dt > this.rate) {
-			this.game.loop(delta);	
+			this.actualLoop(delta);	
 			this.dt -= delta;
 		}
 		
 		this.loopInput();
 
 		window.requestAnimationFrame(this.loop.bind(this));
+	}
+
+	actualLoop() {
+		// this.setBackground();
 	}
 
 	loopKeyboardInput(key_down_map, key_up_map, key_pressing_map, key_depressing_map) {
@@ -152,14 +156,20 @@ class Portal {
 				if (!found) {
 					this.things[key].push(ss);
 					console.log("pushed local object");
+					console.log(this.things[key]);
 				}
 
+				console.log("after the not found loop");
 				var removals = [];
 				for (var k = 0; k < this.things[key].length; k++) {
-					let ls = this.things[key][k]
+					console.log("inside k loop");
+					let ls = this.things[key][k];
+					console.log("ls" + ls);
 					if (ls.serverRecognized == false) {
+						console.log("Remove this item");
 						removals.push(ls);
 					} else {
+						console.log("Render this item");
 						this.render(key, ls);
 					}
 				}
@@ -169,6 +179,7 @@ class Portal {
 					// var index = localObjects.indexOf(removals[i]);
 					// localObjects.splice(index, 1);
 				}
+				console.log("After the whole thing");
 			}
 		}
 	}
@@ -206,6 +217,7 @@ class Portal {
 	handleServerUpdate(d) {
 		this.processObjects(d["objects"]);
 		//events
+		console.log("finishing handle server update");
 	}
 
 	
