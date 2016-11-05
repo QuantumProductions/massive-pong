@@ -140,6 +140,7 @@ class ComboGame extends engine.Game {
 		for (var i = 0; i < this.ships.length; i++) {
 			var s = this.ships[i];
 			this.processShipCommand(s, s.command, this);
+			s.command = 'none';
 		}
 
 		for (var i = 0; i < this.balls.length; i++) {
