@@ -4,7 +4,7 @@ var engine = require('./engine.js');
 
 class Constants {
 	static constants() {
-		return {"ball_r" : 7, "paddle_r" : 100};
+		return {"ball_r" : 7, "paddle_r" : 50};
 	}
 }
 
@@ -28,6 +28,7 @@ class Ball {
 	loop(game) {
 		this.oldX = this.x;
 		this.oldY = this.y;
+		// this.y = 500;
 		this.x += this.mx;
 		this.y += this.my;
 
@@ -41,6 +42,7 @@ class Ball {
 				if ((this.oldX > s.x && this.x <= s.x) || (this.oldX < s.x && this.x >= s.x)) {
 					this.mx = -this.mx;
 					this.x += this.mx;
+					this.oldX = this.x;
 					continue;
 				}
 			}
@@ -57,7 +59,7 @@ class Ball {
 		if (this.y < 0) {
 			this.my = Math.abs(this.my);
 			this.y = this.my;
-		} else if (this.y > game.fw) {
+		} else if (this.y > game.fh) {
 			this.my = -Math.abs(this.my);
 			this.y = game.fh + this.my;
 		}		
@@ -68,7 +70,7 @@ class Ball {
 class Ship {
 	constructor(o) {
 		this.x = 50;
-		this.y = 50;
+		this.y = 500;
 		let colors = ['red', 'purple', 'yellow', 'orange', 'brown', 'green', 'blue'];
 		let index = Math.floor(Math.random() * colors.length - 1);
 		this.teamColor = colors[index];
@@ -96,14 +98,20 @@ class ComboGame extends engine.Game {
 		this.fw = 500;
 		this.spawnBall();
 		this.spawnBall();
+		this.spawnBall();
+		this.spawnBall();
+		this.spawnBall();
+		this.spawnBall();
+		this.spawnBall();
+		this.spawnBall();
 		this.c = Constants.constants();
 	}
 
 	spawnBall() {
 		var b = new Ball();
 		b.id = "Ball" + this.balls.length;
-		b.x = Math.floor(Math.random() * 150);
-		b.y = Math.floor(Math.random() * 150);
+		b.x = Math.floor(Math.random() * 450);
+		b.y = Math.floor(Math.random() * 450);
 		b.mx = -1;
 		b.my = -1;
 		this.balls.push(b);
@@ -189,16 +197,16 @@ class ComboGame extends engine.Game {
 	}
 
 	moveShipUp(ship, game) {
-		ship.y-= 5 ;
-		if (ship.y < 0) {
-			ship.y = 0;
+		ship.y-= 5;
+		if (ship.top() < 0) {
+			ship.y = Constants.constants()["paddle_r"];;
 		}
 	}
 
 	moveShipDown(ship, game) {
 		ship.y+= 5;
-		if (ship.y > game.fh) {
-			ship.y = game.fh;
+		if (ship.bottom() > game.fh) {
+			ship.y = game.fh - Constants.constants()["paddle_r"];
 		}	
 	}
 

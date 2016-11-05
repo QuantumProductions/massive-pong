@@ -12,7 +12,7 @@ class Render {
   }
 
   static drawShip(ctx, p, t) {
-      Render.drawRect(ctx, t.x - 5, t.y - 100, 10, 100, t.teamColor);
+      Render.drawRect(ctx, t.x - 5, t.y - 50, 10, 100, t.teamColor);
   }
 
   static drawBall(ctx, p, t) {
