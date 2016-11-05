@@ -185,6 +185,7 @@ class Portal {
 	}
 
 	loopObjects(key) {
+		// this.setBackground();
 		var os = this.things[key];
 		for (var i = 0; i < os.length; i++) {
 			var t = os[i];

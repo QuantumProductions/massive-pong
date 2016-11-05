@@ -27,17 +27,18 @@ class LocalPortal extends Portal {
 	}
 
 	render(key, t) {
-		let ctx = this.context();
-		if (key == 'balls') {
-			ctx.beginPath();
-			ctx.arc(t.x, t.y, 7, 0, 2 * Math.PI, false);
-			ctx.fillStyle = t.teamColor;
-			ctx.fill();
-		} else if (key == 'ships') {
-			ctx.beginPath();
-			ctx.fillStyle = t.teamColor;;
-			ctx.fillRect(t.x,t.y,10,30); //CONSTANTS
-		}
+		Render.render(key, t, this.context(), this);
+		// let ctx = this.context();
+		// if (key == 'balls') {
+		// 	ctx.beginPath();
+		// 	ctx.arc(t.x, t.y, 7, 0, 2 * Math.PI, false);
+		// 	ctx.fillStyle = t.teamColor;
+		// 	ctx.fill();
+		// } else if (key == 'ships') {
+		// 	ctx.beginPath();
+		// 	ctx.fillStyle = t.teamColor;;
+		// 	ctx.fillRect(t.x,t.y,10,30); //CONSTANTS
+		// }
 		
 	}
 
