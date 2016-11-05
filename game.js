@@ -1,10 +1,11 @@
 "use strict";
 
 var engine = require('./engine.js');
+var utils = require('./utils.js');
 
 class Constants {
 	static constants() {
-		return {"ball_r" : 7, "paddle_r" : 50};
+		return {"ball_r" : 7, "paddle_r" : 50, 'maxShips' : 6};
 	}
 }
 
@@ -133,12 +134,12 @@ class ComboGame extends engine.Game {
 	}
 
 	openSeat() {
-		return this.ships.length < 4;
+		return this.ships.length < Constants.constants()['maxShips'];
 	}
 
 	createShip() {
 		var s = new Ship();
-		s.x = Math.floor(Math.random() * 500);
+		s.x = utils.Utils.shipPlacement(this.ships, this.fw, this.fh, Constants.constants()['maxShips']);
 		s.id = new Date().valueOf();
 		this.ships.push(s);
 		return s;
