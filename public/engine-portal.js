@@ -1,5 +1,9 @@
 "use strict";
 
+class Constants {
+
+}
+
 class Portal {
 	constructor() {
 		this.installCanvas();
@@ -30,6 +34,10 @@ class Portal {
 		this.io.portal = this;
 		this.io.on('beat', function(d) {
 			this.portal.handleServerUpdate(d);
+		});
+
+		this.io.on('constants', function(d) {
+			this.portal.handleConstants(d);
 		});
 	}
 
@@ -229,6 +237,10 @@ class Portal {
 		this.context().clearRect(0, 0, this.canvas.width, this.canvas.height); //500
 		this.context().fillStyle = "#000000";
 		this.context().fillRect(0,0, this.canvas.width, this.canvas.height);
+	}
+
+	handleConstants(d) {
+		Constants = d;
 	}
 
 	handleServerUpdate(d) {

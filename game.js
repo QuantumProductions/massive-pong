@@ -218,6 +218,10 @@ class ComboGame extends engine.Game {
 			s.y = Math.floor(Math.random() * 180);
 		});
 	}
+
+	constants() {
+		return Constants;
+	}
 }
 
 module.exports = {

@@ -12,6 +12,11 @@ var game = new g.Game();
 
 var ships = [];
 
+function announceState(socket) {
+  let constants = game.constants();
+  socket.emit('constants', constants);
+}
+
 function emitBeat(socket) {
 	let state = game.state();
 	socket.emit('beat', state);
@@ -55,6 +60,7 @@ function removeFromGame(socket) {
 }
 
 io.on('connection', function(socket){
+  announceState(socket)
   emitBeat(socket);
 
   socket.on('join', function(msg) {
