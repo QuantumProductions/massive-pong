@@ -16,7 +16,7 @@ class Render {
   }
 
   static drawBall(ctx, p, t) {
-      ctx.arc(t.x, t.y, 7, 0, 2 * Math.PI, false);
+      ctx.arc(t.x, t.y, Constants.ball_r, 0, 2 * Math.PI, false);
       ctx.fillStyle = t.teamColor;
       ctx.fill();
   }
