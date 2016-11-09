@@ -2,12 +2,7 @@
 
 var engine = require('./engine.js');
 var utils = require('./utils.js');
-
-class Constants {
-	static constants() {
-		return {"ball_r" : 7, "paddle_r" : 50, 'maxShips' : 6};
-	}
-}
+var Constants = require('./constants.js');
 
 class Ball {
 	constructor(o) {
@@ -15,11 +10,11 @@ class Ball {
 	}
 
 	top() {
-		return this.y - Constants.constants()["ball_r"];
+		return this.y - Constants["ball_r"];
 	}
 
 	bottom() {
-		return this.y + Constants.constants()["ball_r"];
+		return this.y + Constants["ball_r"];
 	}
 
 	position() {
@@ -78,11 +73,11 @@ class Ship {
 	}
 
 	top() {
-		return this.y - Constants.constants()["paddle_r"];
+		return this.y - Constants["paddle_r"];
 	}
 
 	bottom() {
-		return this.y + Constants.constants()["paddle_r"];
+		return this.y + Constants["paddle_r"];
 	}
 
 	position() {
@@ -105,7 +100,6 @@ class ComboGame extends engine.Game {
 		this.spawnBall();
 		this.spawnBall();
 		this.spawnBall();
-		this.c = Constants.constants();
 	}
 
 	spawnBall() {
@@ -134,12 +128,12 @@ class ComboGame extends engine.Game {
 	}
 
 	openSeat() {
-		return this.ships.length < Constants.constants()['maxShips'];
+		return this.ships.length < Constants['maxShips'];
 	}
 
 	createShip() {
 		var s = new Ship();
-		s.x = utils.Utils.shipPlacement(this.ships, this.fw, this.fh, Constants.constants()['maxShips']);
+		s.x = utils.Utils.shipPlacement(this.ships, this.fw, this.fh, Constants['maxShips']);
 		s.id = new Date().valueOf();
 		this.ships.push(s);
 		return s;
@@ -200,14 +194,14 @@ class ComboGame extends engine.Game {
 	moveShipUp(ship, game) {
 		ship.y-= 5;
 		if (ship.top() < 0) {
-			ship.y = Constants.constants()["paddle_r"];;
+			ship.y = Constants["paddle_r"];;
 		}
 	}
 
 	moveShipDown(ship, game) {
 		ship.y+= 5;
 		if (ship.bottom() > game.fh) {
-			ship.y = game.fh - Constants.constants()["paddle_r"];
+			ship.y = game.fh - Constants["paddle_r"];
 		}	
 	}
 
