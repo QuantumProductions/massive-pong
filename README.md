@@ -1,5 +1,6 @@
 node server.js
 
+
 open localhost:3000 to view active game
 
 on a wifi network, connect to your.host.ip.address:3000/controller.html from a mobile device.
