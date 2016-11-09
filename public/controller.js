@@ -15,7 +15,26 @@ class Controller extends Portal {
 	installCanvas() {
 	}
 
+	doTouchStart(event) {
+		var target = event.srcElement || event.currentTarget || event.target;
+		let game = target.game;
+		event.preventDefault();
+		game.io.emit('input', 'up');	
+		// let canvas_x = event.targetTouches[0].pageX;
+		// let canvas_y = event.targetTouches[0].pageY;
+		// if (canvas_y > 200) {
+		// 	game.moveInput = 1;
+		// } else {
+		// 	game.moveInput = 0;
+		// }
+	}
+
 	installInput() {
+		var canvas = document.getElementById("canvas");
+		this.canvas = canvas;
+		this.canvas.addEventListener("touchstart", this.doTouchStart, false);
+		this.canvas.game = this;
+
 		var b1 = document.getElementById('button1');
 		b1.addEventListener("mousedown", this.b1down);
 		b1.addEventListener("mouseup", this.b1up);
