@@ -4,7 +4,8 @@ class Render {
   static renderFunctions() {
       return {'ships' : Render.drawShip,
      'balls' : Render.drawBall,
-      'border' : Render.drawBorder};
+      'border' : Render.drawBorder,
+      'score' : Render.drawScore};
   }
 
   static render(key, ls, context, portal) {
@@ -31,8 +32,14 @@ class Render {
     ctx.moveTo(Constants.fw / 2, 0);
     ctx.lineTo(Constants.fw / 2, Constants.fh);
     ctx.strokeStyle = 'white';
-    console.log(Constants.fw);
     ctx.stroke();
+  }
+
+  static drawScore(ctx, p, t) {
+    ctx.font = '30pt Courier New';
+    ctx.fillStyle = 'white';
+    ctx.fillText("" + t.x, 0, Constants.fh - 50);     
+    ctx.fillText("" + t.y, 450, Constants.fh - 50);     
   }
 
 	static drawRect(ctx, x,y,w,h, colour) {

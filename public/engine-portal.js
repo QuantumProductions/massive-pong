@@ -154,7 +154,13 @@ class Portal {
 				let so = serverObjects[j];
 				if (so.id == lo.id) {
 					matched = true;
-					this.smooth(lo, so);
+					if (key != 'score') { //extract
+						this.smooth(lo, so);	
+					} else {
+						lo.x = so.x;
+						lo.y = so.y;
+					}
+					
 				}
 			}
 			if (matched == false) {
@@ -197,7 +203,6 @@ class Portal {
 		var os = this.things[key];
 		for (var i = 0; i < os.length; i++) {
 			var t = os[i];
-			console.log("Rendering" + key);
 			this.render(key, t);
 		}
 	}

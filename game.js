@@ -45,9 +45,11 @@ class Ball {
 		}
 
 		if (this.x < 0) {
+			game.scorePoint(1);
 			this.mx = Math.abs(this.mx);
 			this.x = this.mx;
 		} else if (this.x > game.fw) {
+			game.scorePoint(0);
 			this.mx = -Math.abs(this.mx);
 			this.x = game.fw + this.mx;
 		}
@@ -85,6 +87,12 @@ class Ship {
 	}
 }
 
+class Score {
+	constructor() {
+		this.x = 0;
+		this.y = 0;
+	}
+}
 
 class ComboGame extends engine.Game {
 	setupPlayers() {
@@ -100,6 +108,20 @@ class ComboGame extends engine.Game {
 		this.spawnBall();
 		this.spawnBall();
 		this.spawnBall();
+		this.score = new Score();
+	}
+
+	scorePoint(side) {
+		if (side == 0) {
+			this.score.x++;
+		} else if (side == 1) {
+			this.score.y++;
+		}
+
+		if (this.score.y >= 100 || this.score.x >= 100) {
+			this.score.x = 0;
+			this.score.y = 0;		
+		}
 	}
 
 	spawnBall() {
@@ -109,7 +131,7 @@ class ComboGame extends engine.Game {
 		b.y = Math.floor(Math.random() * 450);
 		b.mx = -1;
 		b.my = -1;
-		this.balls.push(b);
+		this.balls.push(b); //TODO this.add()
 	}
 
 	disconnect(shipId) {
@@ -178,7 +200,7 @@ class ComboGame extends engine.Game {
 
 
 	state() {
-		return {'objects' : {'border' : [{'x' : 0, 'y' : 0}], 'ships' : this.shipPositions(), 'balls' : this.ballPositions()}};
+		return {'objects' : {'score' : [this.score], 'border' : [{'x' : 0, 'y' : 0}], 'ships' : this.shipPositions(), 'balls' : this.ballPositions()}};
 	}
 
 	doShip(shipId, fn, arg) {
