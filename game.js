@@ -90,8 +90,8 @@ class ComboGame extends engine.Game {
 	setupPlayers() {
 		this.ships = [];
 		this.balls = [];
-		this.fh = 500;
-		this.fw = 500;
+		this.fh = Constants.fh;
+		this.fw = Constants.fw;
 		this.spawnBall();
 		this.spawnBall();
 		this.spawnBall();
@@ -178,7 +178,7 @@ class ComboGame extends engine.Game {
 
 
 	state() {
-		return {'objects' : {'ships' : this.shipPositions(), 'balls' : this.ballPositions()}};
+		return {'objects' : {'border' : [{'x' : 0, 'y' : 0}], 'ships' : this.shipPositions(), 'balls' : this.ballPositions()}};
 	}
 
 	doShip(shipId, fn, arg) {

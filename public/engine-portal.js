@@ -197,6 +197,7 @@ class Portal {
 		var os = this.things[key];
 		for (var i = 0; i < os.length; i++) {
 			var t = os[i];
+			console.log("Rendering" + key);
 			this.render(key, t);
 		}
 	}
@@ -208,6 +209,7 @@ class Portal {
 	processObjects(d) {
 		this.setBackground();
 		let keys = Object.keys(d);
+
 		// console.log(d);
 		// console.log(keys);
 		for (var key of keys) {
@@ -219,6 +221,8 @@ class Portal {
 			// this.smoothObjects(key, serverObjects);
 			this.loopObjects(key);
 		}
+
+		this.render('border', true);
 	}
 
 	smooth(ls,ss) { 
