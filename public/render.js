@@ -38,8 +38,8 @@ class Render {
   static drawScore(ctx, p, t) {
     ctx.font = '30pt Courier New';
     ctx.fillStyle = 'white';
-    ctx.fillText("" + t.x, 0, Constants.fh - 50);     
-    ctx.fillText("" + t.y, 450, Constants.fh - 50);     
+    ctx.fillText("" + t.x, 0, Constants.fh + 50);     
+    ctx.fillText("" + t.y, 450, Constants.fh + 50);     
   }
 
 	static drawRect(ctx, x,y,w,h, colour) {
