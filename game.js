@@ -36,7 +36,7 @@ class Ball {
 				if (this.y <= s.bottom() && this.y >= s.top()) {
 				
 				if ((this.oldX > s.x && this.x <= s.x) || (this.oldX < s.x && this.x >= s.x)) {
-					this.mx = -this.mx;
+					this.mx = -this.mx * 1.2;
 					this.x += this.mx;
 					this.oldX = this.x;
 					continue;
@@ -46,11 +46,11 @@ class Ball {
 
 		if (this.x < 0) {
 			game.scorePoint(1);
-			this.mx = Math.abs(this.mx);
+			this.mx = Math.abs(Constants.ball_reset_speed);
 			this.x = this.mx;
 		} else if (this.x > game.fw) {
 			game.scorePoint(0);
-			this.mx = -Math.abs(this.mx);
+			this.mx = -Math.abs(Constants.ball_reset_speed);
 			this.x = game.fw + this.mx;
 		}
 

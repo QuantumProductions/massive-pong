@@ -14,7 +14,7 @@ class Render {
   }
 
   static drawShip(ctx, p, t) {
-    Render.drawRect(ctx, t.x - (Constants.paddle_w / 2), t.y - (Constants.paddle_r / 2), Constants.paddle_w, Constants.paddle_r * 2, t.teamColor);
+    Render.drawRect(ctx, t.x - (Constants.paddle_w / 2), t.y - 25 - (Constants.paddle_r / 2), Constants.paddle_w, Constants.paddle_r * 2, t.teamColor);
   }
 
   static drawBall(ctx, p, t) {
