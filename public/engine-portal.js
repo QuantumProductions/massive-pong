@@ -19,8 +19,8 @@ class Portal {
 
 	generateCanvas() {
 		var canvas = document.getElementById('canvas');
-		canvas.width = 500;
-		canvas.height = 600;
+		canvas.width = 1000;
+		canvas.height = 800;
 		return canvas;
 	}
 
